@@ -12,7 +12,7 @@
     "wpackagist-plugin/advanced-database-cleaner":"*",
     "wpackagist-plugin/cmb2":"*",
     "wpackagist-plugin/enable-media-replace":"*",
-    "wpackagist-plugin/export-all-urls/":"*",
+    "wpackagist-plugin/export-all-urls":"*",
     "wpackagist-plugin/google-sitemap-generator":"*",
     "wpackagist-plugin/jetpack":"*",
     "wpackagist-plugin/regenerate-thumbnails":"*",
