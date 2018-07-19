@@ -22,7 +22,7 @@ indent_style = tab
 indent_size = 4
 
 # Uncomment for WordPress
-[*.{css,less,sass,scss}]
+[*.{js,css,less,sass,scss}]
 indent_style = tab
 indent_size = 4
 
