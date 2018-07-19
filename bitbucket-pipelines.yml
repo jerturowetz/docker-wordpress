@@ -1,0 +1,14 @@
+pipelines:
+  branches:
+    master:
+      - step:
+          script:
+            - git push git@git.wpengine.com:production/WP_ENGINE_PROD_INSTALL.git master:master
+    develop:
+      - step:
+          script:
+            - git push git@git.wpengine.com:production/WP_ENGINE_DEV_INSTALL.git develop:master
+    staging:
+      - step:
+          script:
+            - git push git@git.wpengine.com:production/WP_ENGINE_STAGING_INSTALL.git staging:master
