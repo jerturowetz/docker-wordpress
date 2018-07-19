@@ -17,7 +17,12 @@ insert_final_newline = true
 indent_style = space
 indent_size = 2
 
-[{*.php,*.html,*.css,*.less,*.sass,*.scss}]
+[*.{html,php}]
+indent_style = tab
+indent_size = 4
+
+# Uncomment for WordPress
+[*.{css,less,sass,scss}]
 indent_style = tab
 indent_size = 4
 
