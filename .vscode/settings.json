@@ -1,0 +1,18 @@
+{
+  "php.suggest.basic": false,
+  "phpcs.enable": true,
+  "phpcs.executablePath": "vendor/squizlabs/php_codesniffer/bin/phpcs",
+  "phpcs.standard": "WordPress-Extra",
+  "files.exclude": {
+    "node_modules/": true,
+    "vendor/": true,
+    "wp-content/uploads": true,
+  },
+  "search.exclude": {
+    "*.sql": true,
+    "**/.vscode": true,
+    "**/log": true,
+    "**/wp-content/plugins": true,
+    "**/wp-content/mu-plugins": true,
+  }
+}
