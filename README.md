@@ -58,7 +58,15 @@ Delete friendly: Dont need composer? kill it! Wanna commit plugins to your proje
 - Edit your hosts file to the trafeik server above (please note if you're using doocker-machine you can use `$ docker-machine ip` to get the machine ip)
 - run `export COMPOSE_CONVERT_WINDOWS_PATHS=1` as present version of docker for windows is f-ed
 - run `docker-compose up -d`
-- run `docker-compose run --rm wp-cli wp search-replace https://OLDURL http://DEVURL`
+
+if you imported a database then:
+
+    docker-compose run --rm wp-cli wp search-replace https://$OLDURL http://$DEVURL
+
+if you are installing fresh then:
+
+    docker-compose run --rm wp-cli wp core install --url=wordpress.develop --title=SomethingCool --admin_user=supervisor --admin_password=password --admin_email=info@example.com
+
 - run `docker-compose run --rm wp-cli wp plugin activate --all`
 
 ## Using wp-cli
