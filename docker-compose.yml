@@ -1,0 +1,87 @@
+version: '3.3'
+
+services:
+
+  adminer:
+    image: adminer
+    restart: always
+    labels:
+      - 'traefik.backend=adminer'
+      - 'traefik.port=9000'
+
+  mysql:
+    image: mysql:5.7
+    restart: always
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./docker/mysql:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: some_db_name
+
+  wordpress:
+    image: jerturowetz/wordpress
+    depends_on:
+       - mysql
+    restart: always
+    volumes:
+      - wordpress:/var/www/html
+      - ./wp-content/themes/my-theme:/var/www/html/wp-content/themes/my-theme
+      - ./wp-content/uploads:/var/www/html/wp-content/uploads
+    environment:
+      WORDPRESS_DB_PASSWORD: password
+      WORDPRESS_DB_NAME: some_db_name
+    labels:
+      - 'traefik.backend=wordpress'
+      - 'traefik.port=80'
+      - 'traefik.frontend.rule=Host:wordpress.develop'
+
+  wp-cli:
+    image: wordpress:cli
+    volumes:
+      - wordpress:/var/www/html
+      - ./wp-content/themes/my-theme:/var/www/html/wp-content/themes/my-theme
+      - ./wp-content/uploads:/var/www/html/wp-content/uploads
+    environment:
+      WORDPRESS_DB_PASSWORD: password
+      WORDPRESS_DB_NAME: some_db_name
+
+  composer_plugins:
+    image: composer
+    volumes:
+      - wordpress:/app
+      - ./docker/composer/plugins.json:/app/composer.json
+    command: composer install
+
+  composer:
+    image: composer
+    volumes:
+      - .:/app
+    command: composer install
+
+  traefik:
+    image: traefik
+    command: -c /dev/null --web --docker --logLevel=INFO
+    ports:
+      - 80:80
+      - 8080:8080
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+#   node:
+#     image: node:8
+#     volumes:
+#       - .:/home/node/app
+#     command: yarn install
+
+#   wordpress_phpunit:
+#     image: chriszarate/wordpress-phpunit
+#     environment:
+#       PHPUNIT_DB_HOST: mysql
+#     volumes:
+#       - .:/app
+#       - testsuite:/tmp
+
+volumes:
+  db_data:
+  wordpress:
