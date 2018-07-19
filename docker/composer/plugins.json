@@ -1,0 +1,38 @@
+{
+  "name": "docker-wordpress/composer-plugins",
+  "description": "WordPress project plugins to be installed with composer",
+  "repositories":[
+    {
+      "type":"composer",
+      "url":"https://wpackagist.org"
+    }
+  ],
+  "require": {
+    "composer/installers": "^1.5",
+    "wpackagist-plugin/advanced-database-cleaner":"*",
+    "wpackagist-plugin/cmb2":"*",
+    "wpackagist-plugin/enable-media-replace":"*",
+    "wpackagist-plugin/export-all-urls/":"*",
+    "wpackagist-plugin/google-sitemap-generator":"*",
+    "wpackagist-plugin/jetpack":"*",
+    "wpackagist-plugin/regenerate-thumbnails":"*",
+    "wpackagist-plugin/redirection":"*",
+    "wpackagist-plugin/tiny-compress-images":"*",
+    "wpackagist-plugin/wordpress-seo":"*",
+    "wpackagist-plugin/wp-slimstat":"*"
+  },
+  "require-dev": {
+    "wpackagist-plugin/debug-bar":"*",
+    "wpackagist-plugin/developer":"*",
+    "wpackagist-plugin/log-deprecated-notices":"*",
+    "wpackagist-plugin/monster-widget":"*",
+    "wpackagist-plugin/query-monitor":"*",
+    "wpackagist-plugin/theme-check":"*",
+    "wpackagist-plugin/user-switching":"*"
+  },
+  "extra": {
+    "installer-paths": {
+      "wp-content/plugins/{$name}/": ["type:wordpress-plugin"]
+    }
+  }
+}
