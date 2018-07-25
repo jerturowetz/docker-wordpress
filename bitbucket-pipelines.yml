@@ -2,7 +2,7 @@
 #   branches:
 #     develop:
 #       - step:
-#           name: Deploy to dev
+#           name: Deploy to develop
 #           deployment: test
 #           script:
 #             - git push git@git.wpengine.com:production/WP_ENGINE_DEV_INSTALL.git develop:master
@@ -14,7 +14,7 @@
 #             - git push git@git.wpengine.com:production/WP_ENGINE_STAGING_INSTALL.git staging:master
 #     master:
 #       - step:
-#           name: Deploy to prod
+#           name: Deploy to production
 #           deployment: production
 #           script:
 #             - git push git@git.wpengine.com:production/WP_ENGINE_PROD_INSTALL.git master:master
