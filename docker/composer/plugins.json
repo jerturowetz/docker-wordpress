@@ -12,11 +12,8 @@
     "wpackagist-plugin/advanced-database-cleaner":"*",
     "wpackagist-plugin/cmb2":"*",
     "wpackagist-plugin/enable-media-replace":"*",
-    "wpackagist-plugin/export-all-urls":"*",
-    "wpackagist-plugin/google-sitemap-generator":"*",
     "wpackagist-plugin/jetpack":"*",
     "wpackagist-plugin/regenerate-thumbnails":"*",
-    "wpackagist-plugin/redirection":"*",
     "wpackagist-plugin/tiny-compress-images":"*",
     "wpackagist-plugin/wordpress-seo":"*",
     "wpackagist-plugin/wp-slimstat":"*"
