@@ -1,14 +1,20 @@
 # pipelines:
 #   branches:
-#     master:
-#       - step:
-#           script:
-#             - git push git@git.wpengine.com:production/WP_ENGINE_PROD_INSTALL.git master:master
 #     develop:
 #       - step:
+#           name: Deploy to dev
+#           deployment: test
 #           script:
 #             - git push git@git.wpengine.com:production/WP_ENGINE_DEV_INSTALL.git develop:master
 #     staging:
 #       - step:
+#           name: Deploy to staging
+#           deployment: staging
 #           script:
 #             - git push git@git.wpengine.com:production/WP_ENGINE_STAGING_INSTALL.git staging:master
+#     master:
+#       - step:
+#           name: Deploy to prod
+#           deployment: production
+#           script:
+#             - git push git@git.wpengine.com:production/WP_ENGINE_PROD_INSTALL.git master:master
