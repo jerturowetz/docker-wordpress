@@ -5,8 +5,8 @@
 /wp-content/themes/twenty*
 
 ## Tooling and dev deps
+/vendor/
 wpcs/
-vendor/
 node_modules/
 .cache-loader
 npm-debug.log
