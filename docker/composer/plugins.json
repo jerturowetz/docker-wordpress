@@ -9,7 +9,6 @@
   ],
   "require": {
     "composer/installers": "^1.5",
-    "wpackagist-plugin/advanced-database-cleaner":"*",
     "wpackagist-plugin/cmb2":"*",
     "wpackagist-plugin/enable-media-replace":"*",
     "wpackagist-plugin/jetpack":"*",
