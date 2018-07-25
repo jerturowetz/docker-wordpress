@@ -20,7 +20,7 @@ services:
       MYSQL_DATABASE: some_db_name
 
   wordpress:
-    image: jerturowetz/wordpress
+    image: jerturowetz/wordpress-develop
     depends_on:
        - mysql
     restart: always
