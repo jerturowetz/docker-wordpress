@@ -3,6 +3,8 @@
 This is a straightforward if opinionated docker-compose template for setting up a local Wordpress development environments using docker. It has only one requirement, [docker](https://www.docker.com).
 
 It uses a  variation of the official wordpress image but turns on a bunch of debugging stuff (read more here) as well as some useful plugins for both prod and development
+[My wordpress image and a list of stuff associated](https://github.com/jerturowetz/wordpress-develop)
+[plugins here](https://github.com/jerturowetz/docker-wordpress/blob/master/docker/composer/plugins.json)
 
 This template was originally designed for projects meant to deploy to [WP Engine](https://my.wpengine.com); as such, you might notice some WP Engine specific idiosyncracies like certain `.gitignore` additions or that the theme lives at the traditional `./wp-content/themes/you-theme/` location instead of something a bit more elegant like `./your-theme/`.
 
