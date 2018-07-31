@@ -1,16 +1,18 @@
-# WordPress on Docker [the Docker way](https://www.docker.com/what-docker)!
+# WordPress on Docker [the Docker way](https://www.docker.com/what-docker)
 
-This is a straightforward docker-compose template for setting up a local Wordpress development environment using docker. It has only one requirement, docker.
+This is a straightforward if opinionated docker-compose template for setting up a local Wordpress development environments using docker. It has only one requirement, [docker](https://www.docker.com).
+
+It uses a  variation of the official wordpress image but turns on a bunch of debugging stuff (read more here) as well as some useful plugins for both prod and development
 
 This template was originally designed for projects meant to deploy to [WP Engine](https://my.wpengine.com); as such, you might notice some WP Engine specific idiosyncracies like certain `.gitignore` additions or that the theme lives at the traditional `./wp-content/themes/you-theme/` location instead of something a bit more elegant like `./your-theme/`.
 
 > But there are already a bunch of templates for developing WordPress on docker! Why not use one of those?
 
-Most of the templates I found bake wp-cli, Xdebug, phpunit, etc into a single container. Some even give instructions on how to ssh into the active containers to install missing dependancies manually. *This is bad* as we end up with less reliable, less versatile, bloated images. This template lets you add/remove containers as you like and is pretty delete friendly. Don't need something? Erase it. Wanna add something? Go to town!
+Most of the templates I found bake wp-cli, xdebug, phpunit, etc into a single container, some even give instructions on how to ssh into the active containers to install missing dependancies manually. I am of the opinion that *this is bad* - we end up with less reliable, less versatile, bloated images. This template lets you add/remove containers as you like and is pretty delete friendly. Don't need something? Erase it. Wanna add something? Go to town!
 
 Also, most other image don't include a reverse proxy for developing on a custom local domain.
 
-Aside: if you're into using a catch-all VM for WordPress development, take a look at [my WordPress Vagrant box](https://github.com/jerturowetz/homestead-wp) :: a fork of Laravel's homestead.
+Aside: if you'd rather use a catch-all VM for WordPress development, take a look at [my WordPress Vagrant box](https://github.com/jerturowetz/homestead-wp).
 
 ## Requirements
 
@@ -25,17 +27,15 @@ I also like to use vscode, yarn, php, composer, styleline & eslint; but you dont
 - mysql
 - wordpress (my own php7.0 image, its not much different than the official, only has an extra php extension)
 - wp-cli
-- composer x2 (one container for dev deps and the other specifically for plugins)
+- composer x2 (one container for local deps and the other specifically for plugins)
 
 Items of note:
 
-reverse proxy is amazing
-My personal wordpress image but feel free to use the official image
+Traefik is super cool and I'd recommend you reading the docs
+We're using my personal wordpress image but feel free to use the official image, they're nearly identical; thought my image turns on a bunch of debugging stuff
 composer to install plugins completely seperately from the dev deps, this keeps plugins in the volume with the wordpress core files (and away from your working directory)
 
-Delete friendly: Dont need composer? kill it! Wanna commit plugins to your project, remove the gitignore entry and go to town. Dont need the reverse proxy? who cares!
-
-## Includes
+## Included extras
 
 - `.editorconfig` for wordpress coding standards
 - phpcs & wordpress coding standards as composer dependencies
@@ -43,13 +43,31 @@ Delete friendly: Dont need composer? kill it! Wanna commit plugins to your proje
 - vscode file excldes
 - vscode rules for phpcs plugin
 
-## Quick-start
+## Included WordPress plugins (`docker/composer/plugins.json`)
 
-- Put dbs to import in docker/mysql/ (make sure to adjust docker-compose with the right db name everywhere)
+- cmb2
+- enable-media-replace
+- jetpack
+- regenerate-thumbnails
+- tiny-compress-images
+- wordpress-seo
+- wp-slimstat
+
+### Dev plugins
+
+- debug-bar
+- developer
+- log-deprecated-notices
+- monster-widget
+- query-monitor
+- theme-check
+- user-switching
+
+## Quick-start
 
 - Clone or download this package
 - Download and place uploads in the `wp-content/uploads` folder
-- Download a copy of the current database and place in `/docker/mysql/`
+- Put dbs to import in `docker/mysql/` (make sure to adjust docker-compose with the right db name everywhere)
 - Place your theme files at `wp-content/themes/mytheme` and change `mytheme` to whatever you want
 - Edit `docker-compose.yml` with your project details
   - change `wp-content/themes/mytheme` to whatever your actual folder name is (or remove if youre working on a plugin)
@@ -82,17 +100,3 @@ running wp-cli is `docker-compose run --rm wp-cli wp some-command`. You should d
   - nginx/1.11.3 >> Apache/2.4.7
   - mysql Ver 14.14 Distrib 5.6.39-83.1, for debian-linux-gnu using readline 6.3
   - Varnish: varnishd (varnish-3.0.7 revision f544cd8
-
-change composer.jso  and plugins to specific to require and require-dev, even plugins
-
-Plugins to find
-
-- image compression
-- security plugin
-- SEO
-- Gallery (is the native gallery good enough?)
-- events
-- enviragallery
-
-Find a means of using markdown in the editor
-Look in to using gutenberg
