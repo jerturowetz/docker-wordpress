@@ -5,6 +5,10 @@ services:
   adminer:
     image: adminer
     restart: always
+    environment:
+      - ADMINER_DEFAULT_SERVER=mysql
+    ports:
+      - 9000:8080
     labels:
       - 'traefik.backend=adminer'
       - 'traefik.port=9000'
