@@ -12,7 +12,5 @@
     "*.sql": true,
     "**/.vscode": true,
     "**/log": true,
-    "**/wp-content/plugins": true,
-    "**/wp-content/mu-plugins": true,
   }
 }
