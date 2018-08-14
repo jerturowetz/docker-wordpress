@@ -52,7 +52,6 @@ services:
       - 'traefik.wordpress.port=80'
       - 'traefik.wordpress.frontend.rule=Host:wordpress.develop'
 
-
   wp-cli:
     image: wordpress:cli
     volumes:
