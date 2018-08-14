@@ -24,7 +24,8 @@ services:
       MYSQL_DATABASE: some_db_name
 
   wordpress:
-    image: jerturowetz/wordpress-develop
+    build: docker/wordpress/.
+    # image: wordpress:php7.0-apache
     depends_on:
        - mysql
     restart: always
@@ -35,10 +36,22 @@ services:
     environment:
       WORDPRESS_DB_PASSWORD: password
       WORDPRESS_DB_NAME: some_db_name
+      WORDPRESS_CONFIG_EXTRA: |
+        define( 'WP_CACHE', 0 );
+        define( 'WP_POST_REVISIONS', 0 );
+        define( 'WP_MEMORY_LIMIT', '128M' );
+        define( 'WP_MAX_MEMORY_LIMIT', '512M' );
+        define( 'WP_DEBUG', 1 );
+        define( 'WP_DEBUG_DISPLAY', 1 );
+        define( 'WP_DEBUG_LOG', 1 );
+        define( 'SCRIPT_DEBUG', 1 );
+        define( 'CONCATENATE_SCRIPTS', 0 );
+        define( 'JETPACK_DEV_DEBUG', 1 );
     labels:
-      - 'traefik.backend=wordpress'
-      - 'traefik.port=80'
-      - 'traefik.frontend.rule=Host:wordpress.develop'
+      - 'traefik.wordpress.backend=wordpress'
+      - 'traefik.wordpress.port=80'
+      - 'traefik.wordpress.frontend.rule=Host:wordpress.develop'
+
 
   wp-cli:
     image: wordpress:cli
