@@ -9,8 +9,8 @@
   ],
   "require": {
     "composer/installers": "^1.5",
-    "wpackagist-plugin/cmb2":"*",
     "wpackagist-plugin/enable-media-replace":"*",
+    "wpackagist-plugin/idle-user-logout":"*",
     "wpackagist-plugin/jetpack":"*",
     "wpackagist-plugin/regenerate-thumbnails":"*",
     "wpackagist-plugin/tiny-compress-images":"*",

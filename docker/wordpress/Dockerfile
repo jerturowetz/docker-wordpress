@@ -29,6 +29,15 @@ RUN set -ex; \
 	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
 	rm -rf /var/lib/apt/lists/*
 
+RUN pecl install xdebug \
+    && echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.remote_autostart=off" >> /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.remote_port=9212" >> /usr/local/etc/php/conf.d/xdebug.ini
+# xdebug.remote_port=9000
+# xdebug.remote_enable=1
+# xdebug.remote_connect_back=1
+
 # Set some php.ini defaults
 RUN { \
         echo 'file_uploads = On'; \
