@@ -4,6 +4,9 @@
 /wp-content/backups/*
 /wp-content/themes/twenty*
 
+## Docker
+/docker/wp-cli/output
+
 ## Tooling and dev deps
 /vendor/
 wpcs/
