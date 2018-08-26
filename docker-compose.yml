@@ -25,7 +25,6 @@ services:
 
   wordpress:
     build: docker/wordpress/.
-    # image: wordpress:php7.0-apache
     depends_on:
        - mysql
     restart: always
