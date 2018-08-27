@@ -148,50 +148,13 @@ function sp_register_admin_styles() {
 add_action( 'admin_enqueue_scripts', 'sp_register_admin_styles' );
 
 /**
- * Add CMB2
+ * Load CMB2
  */
 require get_template_directory() . '/inc/cmb2/init.php';
 
 /**
- * Implement the Custom Header feature.
+ * Load theme includes
  */
-require get_template_directory() . '/inc/cleanup.php';
-
-/**
- * Implement the Custom Header feature.
- */
-require get_template_directory() . '/inc/custom-header.php';
-
-/**
- * Custom template tags for this theme.
- */
-require get_template_directory() . '/inc/template-tags.php';
-
-/**
- * Functions which enhance the theme by hooking into WordPress.
- */
-require get_template_directory() . '/inc/template-functions.php';
-
-/**
- * Customizer additions.
- */
-require get_template_directory() . '/inc/customizer.php';
-
-/**
- * Implement the Custom Header feature.
- */
-require get_template_directory() . '/inc/login.php';
-
-/**
- * Load Jetpack compatibility file.
- */
-if ( defined( 'JETPACK__VERSION' ) ) {
-	require get_template_directory() . '/inc/jetpack.php';
-}
-
-/**
- * Load WooCommerce compatibility file.
- */
-if ( class_exists( 'WooCommerce' ) ) {
-	require get_template_directory() . '/inc/woocommerce.php';
+foreach ( glob( plugin_dir_path( __FILE__ ) . 'inc/*.php' ) as $file ) {
+	include_once $file;
 }
