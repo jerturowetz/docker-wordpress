@@ -12,5 +12,7 @@
     "*.sql": true,
     "**/.vscode": true,
     "**/log": true,
+    "**/cmb2": true,
+    "**/uploads": true
   }
 }
