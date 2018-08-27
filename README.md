@@ -116,3 +116,7 @@ Then, update the stylesheet header in `style.css`, the links in `footer.php` wit
 Review cleanup.php and remove excessive items
 
 add build script for styles as nothing is currenly output
+
+should i uncomment this in `inc/images.php`
+
+    // add_filter( 'image_send_to_editor', '_s_remove_thumbnail_dimensions', 10, 3 );
