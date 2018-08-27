@@ -112,3 +112,7 @@ running wp-cli is `docker-compose run --rm wp-cli wp some-command`. You should d
 5. Search for: `_s-` and replace with: `megatherium-is-awesome-`
 
 Then, update the stylesheet header in `style.css`, the links in `footer.php` with your own information and rename `_s.pot` from `languages` folder to use the theme's slug. Next, update or delete this readme.
+
+Review cleanup.php and remove excessive items
+
+add build script for styles as nothing is currenly output
