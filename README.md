@@ -120,3 +120,14 @@ add build script for styles as nothing is currenly output
 should i uncomment this in `inc/images.php`
 
     // add_filter( 'image_send_to_editor', '_s_remove_thumbnail_dimensions', 10, 3 );
+
+
+
+	/**
+	 * 
+	 */
+	update_option( 'large_size_w', 640 );
+	update_option( 'large_size_h', 640 );
+
+Uploading Files
+  Organize my uploads into month- and year-based folders
