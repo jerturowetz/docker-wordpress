@@ -79,6 +79,11 @@ if ( ! function_exists( '_s_setup' ) ) :
 			'flex-width'  => true,
 			'flex-height' => true,
 		) );
+
+		/**
+		 * Add post type support for page excerpts
+		 */
+		add_post_type_support( 'page', 'excerpt' );
 	}
 endif;
 add_action( 'after_setup_theme', '_s_setup' );
@@ -120,7 +125,8 @@ add_action( 'widgets_init', '_s_widgets_init' );
  * Enqueue scripts and styles.
  */
 function _s_scripts() {
-	wp_enqueue_style( '_s-style', get_stylesheet_uri() );
+
+	wp_enqueue_style( '_s-style', get_stylesheet_uri(), [], _s_get_theme_version() );
 
 	wp_enqueue_script( '_s-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20151215', true );
 
@@ -131,6 +137,25 @@ function _s_scripts() {
 	}
 }
 add_action( 'wp_enqueue_scripts', '_s_scripts' );
+
+/**
+ * Enqueue back-end scripts & styles
+ */
+function sp_register_admin_styles() {
+	// wp_enqueue_style( 'standard-admin-styles', get_stylesheet_directory_uri() . '/assets/css/admin.min.css', [], _s_get_theme_version() );
+	// wp_enqueue_script( 'standard-admin-scripts', get_stylesheet_directory_uri() . '/assets/js/admin.min.js', [ 'jquery' ], _s_get_theme_version(), false );
+}
+add_action( 'admin_enqueue_scripts', 'sp_register_admin_styles' );
+
+/**
+ * Add CMB2
+ */
+require get_template_directory() . '/inc/cmb2/init.php';
+
+/**
+ * Implement the Custom Header feature.
+ */
+require get_template_directory() . '/inc/cleanup.php';
 
 /**
  * Implement the Custom Header feature.
@@ -151,6 +176,11 @@ require get_template_directory() . '/inc/template-functions.php';
  * Customizer additions.
  */
 require get_template_directory() . '/inc/customizer.php';
+
+/**
+ * Implement the Custom Header feature.
+ */
+require get_template_directory() . '/inc/login.php';
 
 /**
  * Load Jetpack compatibility file.
