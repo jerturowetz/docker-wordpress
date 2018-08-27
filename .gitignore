@@ -5,6 +5,7 @@
 /wp-content/themes/twenty*
 
 ## Docker
+/docker/wraith/shots
 /docker/wp-cli/output
 
 ## Tooling and dev deps
