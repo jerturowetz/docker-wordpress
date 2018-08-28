@@ -142,8 +142,8 @@ add_action( 'wp_enqueue_scripts', '_s_scripts' );
  * Enqueue back-end scripts & styles
  */
 function sp_register_admin_styles() {
-	// wp_enqueue_style( 'standard-admin-styles', get_stylesheet_directory_uri() . '/assets/css/admin.min.css', [], _s_get_theme_version() );
-	// wp_enqueue_script( 'standard-admin-scripts', get_stylesheet_directory_uri() . '/assets/js/admin.min.js', [ 'jquery' ], _s_get_theme_version(), false );
+	wp_enqueue_style( 'standard-admin-styles', get_stylesheet_directory_uri() . 'admin.css', [], _s_get_theme_version() );
+	wp_enqueue_script( 'standard-admin-scripts', get_stylesheet_directory_uri() . '/js/admin.js', [ 'jquery' ], _s_get_theme_version(), false );
 }
 add_action( 'admin_enqueue_scripts', 'sp_register_admin_styles' );
 
