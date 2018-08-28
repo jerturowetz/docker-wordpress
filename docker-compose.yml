@@ -67,7 +67,7 @@ services:
     image: composer
     volumes:
       - wordpress:/app
-      - ./docker/composer/plugins.json:/app/composer.json
+      - ./docker/composer-plugins/plugins.json:/app/composer.json
     command: composer install
 
   composer:
