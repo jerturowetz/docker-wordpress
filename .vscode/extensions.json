@@ -1,0 +1,21 @@
+{
+	// See http://go.microsoft.com/fwlink/?LinkId=827846 to learn about workspace recommendations.
+	// Extension identifier format: ${publisher}.${name}. Example: vscode.csharp
+
+	// List of extensions which should be recommended for users of this workspace.
+	"recommendations": [
+    "ikappas.composer",
+    "EditorConfig.EditorConfig",
+    "dbaeumer.vscode-eslint",
+    "codezombiech.gitignore",
+    "felixfbecker.php-debug",
+    "neilbrayfield.php-docblocker",
+    "ikappas.phpcs",
+    "robinbentley.sass-indented",
+    "shinnn.stylelint",
+	],
+	// List of extensions recommended by VS Code that should not be recommended for users of this workspace.
+	"unwantedRecommendations": [
+
+	]
+}
