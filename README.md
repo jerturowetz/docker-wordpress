@@ -2,21 +2,23 @@
 
 This project combines a slightly modified version of the [_s theme by Automattic](https://underscores.me) with a docker environment for local development. It's primary purpose is to help devs spend more time developing themes and less time tweaking environment configs.
 
-The project assumes a working-level knowledge of docker, docker-compose, wordpress and modern development techniques.
+The project assumes a working-level knowledge of docker, docker-compose, WordPress and modern development techniques.
 
-I like working with [managed WordPress hosts](https://shareasale.com/r.cfm?b=394686&u=1811103&m=41388&urllink=&afftrack=) so you might notice some items geared towards deploying in these enviroments (inelegant folder structure for the theme, a WP Engine focused `bitbucket-pipelines.yml` example and managed-host style `.gitignore`).
+> why not put the theme in the root and mount it to `/wp-content/` instead of burying it in `/wp-content/themes/` ?
+
+I like working with [managed WordPress hosts](https://shareasale.com/r.cfm?b=394686&u=1811103&m=41388&urllink=&afftrack=) so you might notice some items geared towards deploying in such enviroments (inelegant folder structure for the theme, a WP Engine focused `bitbucket-pipelines.yml` example and managed-host style `.gitignore`).
 
 > But there are already a bunch of templates for developing WordPress on docker! Why not use one of those?
 
-Most of the templates I found bake wp-cli, xdebug, phpunit, etc into a single container, some even give instructions on how to ssh into the active containers to install missing dependancies manually (*this is bad*). Others are full-service but all the  Docker images are provider specific (what if they move something...). This project tries to use official docker images and is also pretty delete friendly. Don't need something? Erase it. Wanna add something? Go to town!
+Most of the templates I found bake wp-cli, xdebug, phpunit, etc into a single container, some even give instructions on how to ssh into the active containers to install missing dependancies manually (*this is bad*). Others are full-service but all the  Docker images are provider-specific. This project tries to use official docker images and remain as delete friendly as possible. Don't need something? Erase it. Wanna add something? Go to town! In all cases the official docs for each container will provide relevant information.
 
-If you'd rather use a catch-all VM for WordPress development, take a look at my old-school [WordPress Vagrant box](https://github.com/jerturowetz/homestead-wp).
+> F%#@ this, I want an old-school VM!
+
+If you'd rather use a catch-all VM for WordPress development, take a look at my [WordPress Vagrant box](https://github.com/jerturowetz/homestead-wp).
 
 ## Deps & recommendations
 
-The only requirement to get going is [Docker](https://www.docker.com) which manages all other deps by building containers for them. Optionally, there are bells and whistles you can benefit from by having [Node.js](https://nodejs.org/) installed and working in [VS Code](https://code.visualstudio.com/).
-
-## Quick start
+The only requirement to get going is [Docker](https://www.docker.com) which manages all other deps by building containers for them. Optionally, to benefit from my bells and whistles, get [Node.js](https://nodejs.org/) installed and work with [VS Code](https://code.visualstudio.com/).
 
 ## Project features
 
@@ -71,36 +73,49 @@ Poke around in `docker-compose.yml` to get aquainted with individual settings fo
 ## Quick-start
 
 - Clone or download this package
-- point `wordpress.develop` to your docker machine in your system's hosts file
+- point `wordpress.develop` to your docker machine ip in your system's hosts file (usually localhost)
 - run `export COMPOSE_CONVERT_WINDOWS_PATHS=1` if you're on Windows because present version of Docker is f-ed
 - run `docker-compose up`
 - run `. docker-compose-after.sh` to install WordPress from scratch
 
-### Slower-but-still-quick-start for active installs
+## Other things you might wanna do
 
-TBD explain steps for importing existing databses, uploads folders, themes, configuring plugin stack, changing the local dev domain
+Change you dev url
+
+- edit the wordpress container entry in `docker-compose.yml` to whatever url you like
+- adjust your systems hosts file to suit
+
+To load in an existing database:
+
+- put a WordPress database in it in `docker/mysql/`
+- replace all instances of `some_db_name` in `docker-compose.yml` with your db name
+- use wp-cli to run a search-replace for the old url to the dev url
+
+To change the automatically installed plugins
+
+- edit `docker/composer-plugins/plugins.json` and add whatever plugins you like
+- If you'd like to commit plugins directly to the repo, simply add them to `wp-content/plugins/` and specify the folder mounts in `docker-compose.yml` for both the `wordpress` & `wp-cli` containers
+
+To add your own theme
+
+- copy your theme to `wp-content/themes/` and replace/remove mounts for the `_s` theme in `docker-compose.yml`
+ for both the `WordPress` & `wp-cli` containers
 
 ## Using wp-cli
 
-The wp-cli container expects to be a run-once-and-die situation. The following command spins up the container (as defined in docker-compose.yml)
+The wp-cli container expects to be a run-once-and-die situation. The following command spins up the container (as defined in `docker-compose.yml`)
 
-    docker-compose run --rm wp-cli wp some-command
+    # docker-compose run --rm wp-cli wp some-command
+    # For example:
+    docker-compose run --rm wp-cli wp plugin list
 
-There are a few examples of how to do this in `docker-compose-after.sh` which, for the record, is a good place to put your always-necess steps (ie running search and replace tasks for imported DBs).
+There are a few examples of how to do this in `docker-compose-after.sh` which, for the record, is a good place to put your always-necess steps after spinning up new volumes (ie running search and replace tasks for imported DBs).
 
 You should always include the `--rm` tag so as to kill the container once your command has completed and not create an orphaned container.
 
 ## Caveats
 
 If you run mutiple versions of this project at once on the same localhost you will get prot conflicts (so kill one before starting another).
-
-
-
-
-
-
-
-
 
 ## To do
 
