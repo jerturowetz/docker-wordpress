@@ -16,20 +16,22 @@ Most of the templates I found bake wp-cli, xdebug, phpunit, etc into a single co
 
 If you'd rather use a catch-all VM for WordPress development, take a look at my [WordPress Vagrant box](https://github.com/jerturowetz/homestead-wp).
 
-## Deps & recommendations
+## Requirements
 
-The only requirement to get going is [Docker](https://www.docker.com) which manages all other deps by building containers for them. Optionally, to benefit from my bells and whistles, get [Node.js](https://nodejs.org/) installed and work with [VS Code](https://code.visualstudio.com/).
+The only requirement for local development is [Docker](https://www.docker.com).
+
+To fully benefit from the included tools (wpcs, gulp, esling, styleint) it is recommended you have [Node.js](https://nodejs.org/) installed, work in [VS Code](https://code.visualstudio.com/) and use the recommended extensions (`.vscode/extensions.json`).
 
 ## Project features
 
 - WordPress focused `.editorconfig` to match phpcs
 - WordPress focused `.gitignore` for deploys on WP Engine
-- example `bitbucket-pipelines.yml` for automating deploys (if you're in to that kind of thing)
+- `bitbucket-pipelines.yml` for automated deploys
 - `composer.json` with phpcs & ruleset for WordPress
-- `.vscode/settings.json` & `.vscode/extensions.json` with phpcs configured & useful file & search excludes (if you're using vscode of course)
+- `.vscode/settings.json` & `.vscode/extensions.json` with phpcs configured & useful file & search excludes
 - `package.json` with deps & WordPress style config for stylelint & eslint
 
-### Theme-specific
+### Theme-specific features
 
 If you'd like to learn about _s I suggest you check out [the official repo](https://github.com/Automattic/_s). Outlined below are ways my version of _s is _different_ from the official release.
 
@@ -57,11 +59,11 @@ If you'd like to learn about _s I suggest you check out [the official repo](http
   - `_s_remove_empty_strings_from_array`
   - `_s_post_exists`
 
-### Docker-specific
+### Docker-specific features
 
 Poke around in `docker-compose.yml` to get aquainted with individual settings for the container stack:
 
-- `traefik` reverse proxy so that you can run _yousite.local_ instead of localhost
+- `traefik` reverse proxy so that you can run _yousite.develop_ instead of localhost
 - `adminer` better than phpMyAdmin
 - `mysql`
 - `wordpress` nearly identical to the official WordPress image but with debugging turned on and the `intl` extension added
@@ -72,18 +74,35 @@ Poke around in `docker-compose.yml` to get aquainted with individual settings fo
 
 ## Quick-start
 
-- Clone or download this package
-- point `wordpress.develop` to your docker machine ip in your system's hosts file (usually localhost)
-- run `export COMPOSE_CONVERT_WINDOWS_PATHS=1` if you're on Windows because present version of Docker is f-ed
-- run `docker-compose up`
-- run `. docker-compose-after.sh` to install WordPress from scratch
+- Clone or download this repo
+- in your system's hosts file, point `wordpress.develop` to your docker machine ip (usually localhost)
+- if on windows, run `export COMPOSE_CONVERT_WINDOWS_PATHS=1` (present version of Docker is f-ed)
+- run `docker-compose up` (and wait a moment)
+- run `. docker-compose-after.sh`
+
+## Using linting tools
+
+Use `npm install` or `yarn install` to install node deps locally
+
+## Using wp-cli
+
+The wp-cli container is defined in `docker-compose.yml`. It is designed to run a single action and die (re stability, re the docker way of things). Accessing the machine via docker-compose is pretty straightforward:
+
+    # docker-compose run --rm wp-cli wp some-command
+    # For example:
+    docker-compose run --rm wp-cli wp plugin list
+
+You can find a bunch of examples on how to run the wp-cli container in `docker-compose-after.sh` which is also a good place to store always-use commands (like the db rename task you'll need to run on each fresh `docker-compose up`).
+
+Please note the use of the `--rm` tag, which guarantees that the container will be killed once your command has completed and not create an orphaned container.
 
 ## Other things you might wanna do
 
-Change you dev url
+Change you dev url:
 
 - edit the wordpress container entry in `docker-compose.yml` to whatever url you like
 - adjust your systems hosts file to suit
+- reload the everything
 
 To load in an existing database:
 
@@ -91,27 +110,15 @@ To load in an existing database:
 - replace all instances of `some_db_name` in `docker-compose.yml` with your db name
 - use wp-cli to run a search-replace for the old url to the dev url
 
-To change the automatically installed plugins
+Change the automatically installed plugins:
 
 - edit `docker/composer-plugins/plugins.json` and add whatever plugins you like
 - If you'd like to commit plugins directly to the repo, simply add them to `wp-content/plugins/` and specify the folder mounts in `docker-compose.yml` for both the `wordpress` & `wp-cli` containers
 
-To add your own theme
+Add a new theme:
 
 - copy your theme to `wp-content/themes/` and replace/remove mounts for the `_s` theme in `docker-compose.yml`
  for both the `WordPress` & `wp-cli` containers
-
-## Using wp-cli
-
-The wp-cli container expects to be a run-once-and-die situation. The following command spins up the container (as defined in `docker-compose.yml`)
-
-    # docker-compose run --rm wp-cli wp some-command
-    # For example:
-    docker-compose run --rm wp-cli wp plugin list
-
-There are a few examples of how to do this in `docker-compose-after.sh` which, for the record, is a good place to put your always-necess steps after spinning up new volumes (ie running search and replace tasks for imported DBs).
-
-You should always include the `--rm` tag so as to kill the container once your command has completed and not create an orphaned container.
 
 ## Caveats
 
@@ -143,7 +150,3 @@ If you run mutiple versions of this project at once on the same localhost you wi
 - Manage theme assets with webpack
 - Trigger image size updates automatically on theme install `update_option( 'large_size_w', 640 );` & `update_option( 'large_size_h', 640 );`
 - Write wp-cli commands to set defaults (ie, turn off _Organize my uploads into month-and year-based folders_)
-
-## Contributing
-
-Just get in touch and let's collaborate!
