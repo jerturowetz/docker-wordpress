@@ -18,13 +18,13 @@ services:
     restart: always
     volumes:
       - db_data:/var/lib/mysql
-      - ./docker/mysql:/docker-entrypoint-initdb.d
+      - ./.docker/mysql:/docker-entrypoint-initdb.d
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: some_db_name
 
   wordpress:
-    build: docker/wordpress/.
+    build: .docker/wordpress/.
     depends_on:
        - mysql
     restart: always
@@ -32,7 +32,7 @@ services:
       - wordpress:/var/www/html
       - ./wp-content/themes/_s:/var/www/html/wp-content/themes/_s
       - ./wp-content/uploads:/var/www/html/wp-content/uploads
-      - ./docker/wp-cli:/var/www/html/wp-cli
+      - ./.docker/wp-cli:/var/www/html/wp-cli
     environment:
       WORDPRESS_DB_PASSWORD: password
       WORDPRESS_DB_NAME: some_db_name
@@ -58,7 +58,7 @@ services:
       - wordpress:/var/www/html
       - ./wp-content/themes/_s:/var/www/html/wp-content/themes/_s
       - ./wp-content/uploads:/var/www/html/wp-content/uploads
-      - ./docker/wp-cli:/var/www/html/wp-cli
+      - ./.docker/wp-cli:/var/www/html/wp-cli
     environment:
       WORDPRESS_DB_PASSWORD: password
       WORDPRESS_DB_NAME: some_db_name
@@ -67,7 +67,7 @@ services:
     image: composer
     volumes:
       - wordpress:/app
-      - ./docker/composer-plugins/plugins.json:/app/composer.json
+      - ./.docker/composer-plugins/plugins.json:/app/composer.json
     command: composer install
 
   composer:
@@ -89,7 +89,7 @@ services:
 #  wraith:
 #    image: bbcnews/wraith
 #    volumes:
-#      - ./docker/wraith:/wraithy
+#      - ./.docker/wraith:/wraithy
 #    working_dir: /wraithy
 
 #   wordpress_phpunit:
