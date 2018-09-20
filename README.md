@@ -134,18 +134,8 @@ If you run mutiple versions of this project at once on the same localhost you wi
   - mysql Ver 14.14 Distrib 5.6.39-83.1, for debian-linux-gnu using readline 6.3
   - Varnish: varnishd (varnish-3.0.7 revision f544cd8
 - Review `wp-content/themes/_s/inc/cleanup.php` and remove excessive items
-- add gulp or webpack to build styles from sass
-- Add init script to perform rename on _s theme & `docker-compose.yml`
-  1. Search for: `'_s'` and replace with: `'megatherium-is-awesome'`
-  2. Search for: `_s_` and replace with: `megatherium_is_awesome_`
-  3. Search for: `Text Domain: _s` and replace with: `Text Domain: megatherium-is-awesome` in `style.css`.
-  4. Search for: <code>&nbsp;_s</code> and replace with: <code>&nbsp;Megatherium_is_Awesome</code>
-  5. Search for: `_s-` and replace with: `megatherium-is-awesome-`
-  6. Update the stylesheet header in `style.css`, the links in `footer.php` with your own information and rename `_s.pot` from `languages` folder to use the theme's slug.
 - should i uncomment the following in `inc/images.php`
-    add_filter( 'image_send_to_editor', '_s_remove_thumbnail_dimensions', 10, 3 );
-- Add better testing
-- Add non-vscode focused linting
+    `add_filter( 'image_send_to_editor', '_s_remove_thumbnail_dimensions', 10, 3 );`
 - Add working xdebug setup
 - Manage theme assets with webpack
 - Trigger image size updates automatically on theme install `update_option( 'large_size_w', 640 );` & `update_option( 'large_size_h', 640 );`
