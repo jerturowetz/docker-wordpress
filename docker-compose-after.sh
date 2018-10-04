@@ -27,6 +27,12 @@ docker-compose run --rm wp-cli wp theme activate _s
 # printf "\n%s\n" "Patch an option"
 # docker-compose run --rm wp-cli wp option patch update sitedefaults_options featured_products [\"9999\",\"9991\"] --format=json
 
+# printf "\n%s\n" "Have wp-cli run a file"
+# docker-compose run --rm wp-cli wp eval-file wp-cli/list-urls.php
+
+# printf "\n%s\n" "Running Wraith"
+# docker-compose run --rm wraith capture config.yaml
+
 # printf "\n%s\n" "Gets array of values from one option and pipes it to another option"
 # MSYS_NO_PATHCONV=1 docker-compose run --rm wp-cli /bin/sh -c "wp option pluck sitedefaults_options featured_products --format=json | xargs wp option patch insert sp_products_opti ons featured_products --format=json"
 
