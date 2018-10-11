@@ -14,6 +14,7 @@
     "wpackagist-plugin/jetpack":"*",
     "wpackagist-plugin/regenerate-thumbnails":"*",
     "wpackagist-plugin/tiny-compress-images":"*",
+    "wpackagist-plugin/restricted-site-access":"*",
     "wpackagist-plugin/wordpress-seo":"*",
     "wpackagist-plugin/wp-slimstat":"*"
   },
