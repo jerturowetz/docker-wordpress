@@ -21,7 +21,7 @@ services:
       - ./.docker/mysql:/docker-entrypoint-initdb.d
     environment:
       MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: some_db_name
+      MYSQL_DATABASE: wordpress
 
   wordpress:
     build: .docker/wordpress/.
@@ -35,7 +35,6 @@ services:
       - /c/Users/jturo/Dropbox/Projects/[uploads]/_s:/var/www/html/wp-content/uploads
     environment:
       WORDPRESS_DB_PASSWORD: password
-      WORDPRESS_DB_NAME: some_db_name
       WORDPRESS_CONFIG_EXTRA: |
         define( 'WP_CACHE', 0 );
         define( 'WP_POST_REVISIONS', 0 );
@@ -61,7 +60,6 @@ services:
       - /c/Users/jturo/Dropbox/Projects/[uploads]/_s:/var/www/html/wp-content/uploads
     environment:
       WORDPRESS_DB_PASSWORD: password
-      WORDPRESS_DB_NAME: some_db_name
 
   composer-plugins:
     image: composer
