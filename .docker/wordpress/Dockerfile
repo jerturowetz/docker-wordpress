@@ -1,4 +1,4 @@
-FROM wordpress:php7.0-apache
+FROM wordpress:php7.2-apache
 
 # Install intl, this is mostly used on standard's install, but exists on wpengine
 RUN set -ex; \
