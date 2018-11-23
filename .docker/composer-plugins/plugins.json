@@ -23,6 +23,7 @@
     "wpackagist-plugin/developer":"*",
     "wpackagist-plugin/log-deprecated-notices":"*",
     "wpackagist-plugin/monster-widget":"*",
+    "wpackagist-plugin/php-compatibility-checker":"*",
     "wpackagist-plugin/query-monitor":"*",
     "wpackagist-plugin/theme-check":"*",
     "wpackagist-plugin/user-switching":"*"
