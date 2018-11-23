@@ -2,7 +2,7 @@ clone:
   depth: full
 # pipelines:
 #   branches:
-#     develop:
+#     dev:
 #       - step:
 #           name: Deploy to develop
 #           deployment: test
