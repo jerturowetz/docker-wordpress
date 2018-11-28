@@ -37,11 +37,13 @@ add_action( 'after_setup_theme', '_s_custom_image_sizes' );
  * @return void
  */
 function _s_custom_image_sizes_to_editor( $sizes ) {
+	// Please note the space in the names below is used in the init script renaming process
+	// So feel free to change it if you like
 	return array_merge( $sizes, array(
-		'_s-small'  => __( '_s Small' ),
-		'_s-medium' => __( '_s Medium' ),
-		'_s-large'  => __( '_s Large' ),
-		'_s-xlarge' => __( '_s XLarge' ),
+		'_s-small'  => __( ' _s Small' ),
+		'_s-medium' => __( ' _s Medium' ),
+		'_s-large'  => __( ' _s Large' ),
+		'_s-xlarge' => __( ' _s XLarge' ),
 	) );
 }
 add_filter( 'image_size_names_choose', '_s_custom_image_sizes_to_editor' );
