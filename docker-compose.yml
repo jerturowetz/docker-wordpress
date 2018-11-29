@@ -49,7 +49,7 @@ services:
     labels:
       - 'traefik.wordpress.backend=wordpress'
       - 'traefik.wordpress.port=80'
-      - 'traefik.wordpress.frontend.rule=Host:wordpress.develop'
+      - 'traefik.wordpress.frontend.rule=Host:yoursite.develop'
 
   wp-cli:
     image: wordpress:cli
