@@ -142,7 +142,7 @@ add_action( 'wp_enqueue_scripts', '_s_scripts' );
  * Enqueue back-end scripts & styles
  */
 function _s_register_admin_styles() {
-	wp_enqueue_style( '_s-admin-styles', get_stylesheet_directory_uri() . 'admin.css', [], _s_get_theme_version() );
+	wp_enqueue_style( '_s-admin-styles', get_stylesheet_directory_uri() . '/admin.css', [], _s_get_theme_version() );
 	wp_enqueue_script( '_s-admin-scripts', get_stylesheet_directory_uri() . '/js/admin.js', [ 'jquery' ], _s_get_theme_version(), false );
 }
 add_action( 'admin_enqueue_scripts', '_s_register_admin_styles' );
