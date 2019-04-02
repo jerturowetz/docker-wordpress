@@ -24,15 +24,15 @@ services:
       MYSQL_DATABASE: wordpress
 
   wordpress:
-    build: .docker/wordpress/.
+    image: jerturowetz/wordpress
     depends_on:
        - mysql
     restart: always
     volumes:
       - wordpress:/var/www/html
       - ./wp-content/themes/_s:/var/www/html/wp-content/themes/_s
+      - ./wp-content/uploads:/var/www/html/wp-content/uploads
       - ./.docker/wp-cli:/var/www/html/wp-cli
-      - /c/Users/jturo/Dropbox/Projects/[uploads]/_s:/var/www/html/wp-content/uploads
     environment:
       WORDPRESS_DB_PASSWORD: password
       WORDPRESS_CONFIG_EXTRA: |
@@ -52,12 +52,15 @@ services:
       - 'traefik.wordpress.frontend.rule=Host:yoursite.develop'
 
   wp-cli:
+    # image: jerturowetz/wordpress:cli
     image: wordpress:cli
+    # build: .docker/wp-cli-image/.
+    user: '1000:1000'
     volumes:
       - wordpress:/var/www/html
       - ./wp-content/themes/_s:/var/www/html/wp-content/themes/_s
+      - ./wp-content/uploads:/var/www/html/wp-content/uploads
       - ./.docker/wp-cli:/var/www/html/wp-cli
-      - /c/Users/jturo/Dropbox/Projects/[uploads]/_s:/var/www/html/wp-content/uploads
     environment:
       WORDPRESS_DB_PASSWORD: password
 
@@ -68,12 +71,6 @@ services:
       - ./.docker/composer-plugins/plugins.json:/app/composer.json
     command: composer install
 
-  composer:
-    image: composer
-    volumes:
-      - .:/app
-    command: composer install
-
   traefik:
     image: traefik
     command: -c /dev/null --web --docker --logLevel=INFO
@@ -82,21 +79,6 @@ services:
       - 8080:8080
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-
-#  # wraith's entrypoint makes it unecessary to explicity type "wraith" before commands
-#  wraith:
-#    image: bbcnews/wraith
-#    volumes:
-#      - ./.docker/wraith:/wraithy
-#    working_dir: /wraithy
-
-#   wordpress_phpunit:
-#     image: chriszarate/wordpress-phpunit
-#     environment:
-#       PHPUNIT_DB_HOST: mysql
-#     volumes:
-#       - .:/app
-#       - testsuite:/tmp
 
 volumes:
   db_data:
