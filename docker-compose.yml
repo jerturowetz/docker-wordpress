@@ -18,10 +18,17 @@ services:
     restart: always
     volumes:
       - db_data:/var/lib/mysql
-      - ./.docker/mysql:/docker-entrypoint-initdb.d
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: wordpress
+
+  rsync:
+    user: sync
+    image: instrumentisto/rsync-ssh
+    volumes:
+      - ~/.ssh:/sbin/.ssh
+      - ./wp-content/uploads:/mnt
+      - ./.docker/wp-cli:/wp-cli
 
   wordpress:
     image: jerturowetz/wordpress
@@ -32,7 +39,6 @@ services:
       - wordpress:/var/www/html
       - ./wp-content/themes/_s:/var/www/html/wp-content/themes/_s
       - ./wp-content/uploads:/var/www/html/wp-content/uploads
-      - ./.docker/wp-cli:/var/www/html/wp-cli
     environment:
       WORDPRESS_DB_PASSWORD: password
       WORDPRESS_CONFIG_EXTRA: |
@@ -52,15 +58,13 @@ services:
       - 'traefik.wordpress.frontend.rule=Host:yoursite.develop'
 
   wp-cli:
-    # image: jerturowetz/wordpress:cli
     image: wordpress:cli
-    # build: .docker/wp-cli-image/.
     user: '1000:1000'
     volumes:
       - wordpress:/var/www/html
+      - ./.docker/wp-cli:/var/www/html/.wp-cli
       - ./wp-content/themes/_s:/var/www/html/wp-content/themes/_s
       - ./wp-content/uploads:/var/www/html/wp-content/uploads
-      - ./.docker/wp-cli:/var/www/html/wp-cli
     environment:
       WORDPRESS_DB_PASSWORD: password
 
