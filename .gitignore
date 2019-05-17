@@ -1,12 +1,10 @@
 # Extra WordPress bits
-/wordpress/
 /wp-content/plugins/
 /wp-content/backups/*
 /wp-content/themes/twenty*
 
-## Docker
-/.docker/wraith/shots
-/.docker/wp-cli/output
+## Sketchy stuff
+.env
 
 ## Tooling and dev deps
 /vendor/
