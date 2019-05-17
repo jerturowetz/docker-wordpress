@@ -37,7 +37,7 @@ services:
     restart: always
     volumes:
       - wordpress:/var/www/html
-      - ./wp-content/themes/_s:/var/www/html/wp-content/themes/_s
+      - ./wp-content/themes/${THEME_FOLDER:?THEME_FOLDER must be defined as an enviroment variable (or an .env file for sanity)}:/var/www/html/wp-content/themes/${THEME_FOLDER}
       - ./wp-content/uploads:/var/www/html/wp-content/uploads
     environment:
       WORDPRESS_DB_PASSWORD: password
@@ -53,9 +53,9 @@ services:
         define( 'CONCATENATE_SCRIPTS', 0 );
         define( 'JETPACK_DEV_DEBUG', 1 );
     labels:
-      - 'traefik.wordpress.backend=wordpress'
-      - 'traefik.wordpress.port=80'
-      - 'traefik.wordpress.frontend.rule=Host:yoursite.develop'
+      - "traefik.wordpress.backend=wordpress"
+      - "traefik.wordpress.port=80"
+      - "traefik.wordpress.frontend.rule=Host:${DEV_URL:?DEV_URL must be defined as an enviroment variable (or an .env file for sanity)}"
 
   wp-cli:
     image: wordpress:cli
@@ -63,13 +63,16 @@ services:
     volumes:
       - wordpress:/var/www/html
       - ./.docker/wp-cli:/var/www/html/.wp-cli
-      - ./wp-content/themes/_s:/var/www/html/wp-content/themes/_s
+      - ./wp-content/themes/${THEME_FOLDER:?THEME_FOLDER must be defined as an enviroment variable (or an .env file for sanity)}:/var/www/html/wp-content/themes/${THEME_FOLDER}
       - ./wp-content/uploads:/var/www/html/wp-content/uploads
     environment:
       WORDPRESS_DB_PASSWORD: password
+      REPLACE_URL: "https://${PROD_URL?PROD_URL must be defined as an enviroment variable (or an .env file for sanity)}"
+      WITH_URL: "http://${DEV_URL}"
 
   composer-plugins:
     image: composer
+    user: '1000:1000'
     volumes:
       - wordpress:/app
       - ./.docker/composer-plugins/plugins.json:/app/composer.json
