@@ -1,73 +1,32 @@
-#! bin/bash
 
-PROD_SITES=( yoursite.com yoursite.wpengine.com )
-SUBSITES=( blog d365 )
-OLD_CURRENT_SITE=yoursite.wpengine.com # this will get reset at some point and fuck me up
-DEV_SITE=yoursite.develop # right now the script assumes we're using non-www target domains
+#!bin/bash
+# set -e # exit on any errors (implies linear flow)
 
-# Go to table wp_blogs
-# Replace the domain and path fields with the new values.
-printf "\n%s\n" "Adjust the root site url to match DOMAIN_CURRENT_SITE and avoid confusion"
-docker-compose run --rm wp-cli wp search-replace ${OLD_CURRENT_SITE} ${DEV_SITE} wp_blogs wp_site
+# Check for required enviroment variables
+${INSTALLNAME:?INSTALLNAME must be defined as an enviroment variable (or an .env file for sanity)}
+${AWS_PROFILE:-default}
 
-# Go to table wp_options
-# In this table, change the fields site_url and home - AUTOMATIC VIA SCRIPTS BELOW
+# remove requirement for prod url in docker-compose up
+>&2 echo "Set AWS_DEFAULT_PROFILE to ${AWS_PROFILE}"
+export AWS_DEFAULT_PROFILE=AWS_PROFILE
 
-# Go to table wp_sitemeta
-# Change the site_url field  - AUTOMATIC VIA SCRIPTS BELOW
+>&2 echo "Update composer"
+composer update
 
-# wp_x_options: - AUTOMATIC VIA SCRIPTS BELOW
-#   home
-#   siteurl
-#   upload_path
-#   upload_url_path
+>&2 echo "Update node deps"
+yarn install --update --dev
 
+>&2 echo "Get remote DB"
+MSYS_NO_PATHCONV=1 docker-compose run --rm rsync rsync -avz --delete --progress -e "ssh -T -o Compression=no -x" ${INSTALLNAME}@${INSTALLNAME}.ssh.wpengine.net:sites/${INSTALLNAME}/wp-content/mysql.sql /wp-cli/
 
-replace_www() {
-  local URL=$1
-  if [[ $URL == "www."* ]];
-  then
-    URL=${URL/www./}
-  fi
-  echo "$URL"
-}
+>&2 echo "Re-init DB and run wp-cli tasks"
+MSYS_NO_PATHCONV=1 docker-compose run --rm wp-cli /var/www/html/.wp-cli/init.sh
 
-search_replace() {
-  local PROTOCOLS=( https:// http:// )
-  local SEARCH_FOR=$1
-  local REPLACE_WITH=$2
-  for protocol in "${PROTOCOLS[@]}"
-  do
-    printf "\n" "Updating URL from ${protocol}${SEARCH_FOR} to http://${REPLACE_WITH}"
-    docker-compose run --rm wp-cli wp search-replace ${protocol}${SEARCH_FOR} http://${REPLACE_WITH} --recurse-objects --network
-  done
-}
+>&2 echo "Sync uploads folder"
+MSYS_NO_PATHCONV=1 docker-compose run --rm rsync rsync -avz --delete --progress --iconv=utf8,utf8 -e "ssh -T -o Compression=no -x" "${INSTALLNAME}"@"${INSTALLNAME}".ssh.wpengine.net:sites/"${INSTALLNAME}"/wp-content/uploads/ /mnt/
 
-network_search_replace() {
-  local SEARCH_FOR=$(replace_www ${1})
-  local REPLACE_WITH=$2
+#>&2 echo "Sync AWS bucket"
+# MSYS_NO_PATHCONV=1 aws s3 sync s3://largefs-"$INSTALLNAME"/"$INSTALLNAME"/wp-content/uploads/ ./wp-content/uploads/
 
-  # runs search replace on main domain & www version if not a wpengine domain
-  search_replace ${SEARCH_FOR} ${REPLACE_WITH}
-  if [[ $SEARCH_FOR != *".wpengine."* ]];
-  then
-    search_replace www.${SEARCH_FOR} ${REPLACE_WITH}
-  fi
-
-  # runs search replace on sub domains
-  local NEW=$(replace_www ${REPLACE_WITH})
-  for slug in "${SUBSITES[@]}"
-  do
-    search_replace ${slug}.${SEARCH_FOR} ${slug}.${NEW}
-  done
-
-}
-
-for site in "${PROD_SITES[@]}"
-do
-  printf "\n%s\n" "Running search replace tasks on ${site} to ${DEV_SITE}"
-  network_search_replace ${site} ${DEV_SITE}
-done
-
-printf "\n%s\n" "flushing permalinks"
-docker-compose run --rm wp-cli wp rewrite flush
+# >&2 echo "Regen thumbnails"
+# MSYS_NO_PATHCONV=1 docker-compose run --rm wp-cli /var/www/html/.wp-cli/regen-thumbs.sh
