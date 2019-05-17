@@ -9,17 +9,16 @@
   ],
   "require": {
     "composer/installers": "^1.5",
+    "wpackagist-plugin/classic-editor":"*",
     "wpackagist-plugin/enable-media-replace":"*",
     "wpackagist-plugin/idle-user-logout":"*",
-    "wpackagist-plugin/jetpack":"*",
+    "wpackagist-plugin/redirection":"*",
     "wpackagist-plugin/regenerate-thumbnails":"*",
-    "wpackagist-plugin/tiny-compress-images":"*",
-    "wpackagist-plugin/restricted-site-access":"*",
-    "wpackagist-plugin/wordpress-seo":"*",
-    "wpackagist-plugin/wp-slimstat":"*"
+    "wpackagist-plugin/wordpress-seo":"*"
   },
   "require-dev": {
     "wpackagist-plugin/debug-bar":"*",
+    "wpackagist-plugin/debug-media":"*",
     "wpackagist-plugin/developer":"*",
     "wpackagist-plugin/log-deprecated-notices":"*",
     "wpackagist-plugin/monster-widget":"*",
