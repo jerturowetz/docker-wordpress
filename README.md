@@ -72,14 +72,23 @@ Poke around in `docker-compose.yml` to get aquainted with individual settings fo
 - `wp-cli` in its own container for one-off cli commands (the docker way)
 - `composer` for instaling phpcs & wpcs locally
 - `composer-plugins` for installing WordPress plugins listed in `composer-plugins/plugins.json` directly to the volume without cluttering up your local dev environment
-- `wraith` [bbcnews/wraith](https://github.com/BBC-News/wraith) visual regression testing tool (off by default)
+
+There are several variables defined to minimize your need to edit `docker-compose.yml`, to make your life easier I recommend you manage them via an `.env` file.
+
+#### Required enviroment variables
+
+- `INSTALLNAME`
+- `PROD_URL`
+- `DEV_URL`
+- `THEME_FOLDER`
+- `AWS_PROFILE`
 
 ## Quick-start
 
 - Clone or download this repo
+- add an `.env` file to the project root and define the details for your site
 - In your system's hosts file point `yoursite.develop` to your docker machine ip (usually localhost)
-- Get a copy of the `wp-content/uploads/` folder and save it locally. Adjust the related volumes declared in `docker-compose.yml` (for the `wordpress` & `wp-cli` containers)
-- Get a copy of the site databases from the [WPEngine admin console](https://my.wpengine.com/), rename it to `wordpress.sql` and place in `.docker/mysql/`
+- Set up ssh for your local machine
 - If on Windows, run `export COMPOSE_CONVERT_WINDOWS_PATHS=1` (as the present version of Docker is f-ed)
 - Run `docker-compose up` and wait until the mysql container imports the db and the wordpress container is able to connect to it
 - Run `. docker-compose-after.sh` to run database rename tasks
@@ -137,3 +146,6 @@ If you run mutiple versions of this project at once on the same host system you 
 - Manage theme assets with webpack
 - Trigger image size updates automatically on theme install `update_option( 'large_size_w', 640 );` & `update_option( 'large_size_h', 640 );`
 - Write wp-cli commands to set defaults (ie, turn off _Organize my uploads into month-and year-based folders_)
+
+
+Home page disscusion
