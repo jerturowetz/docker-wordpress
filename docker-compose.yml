@@ -67,8 +67,8 @@ services:
       - ./wp-content/uploads:/var/www/html/wp-content/uploads
     environment:
       WORDPRESS_DB_PASSWORD: password
-      # REPLACE_URL: "https://${PROD_URL}"
-      # WITH_URL: "http://${DEV_URL}"
+      REPLACE_URL: "https://${PROD_URL:?PROD_URL must be defined as an enviroment variable (or an .env file for sanity)}"
+      WITH_URL: "http://${DEV_URL:?DEV_URL must be defined as an enviroment variable (or an .env file for sanity)}"
 
   composer-plugins:
     image: composer
