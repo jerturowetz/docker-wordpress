@@ -26,3 +26,5 @@ wp_regenerate_thumbs () {
 for i in $(seq 1 $PAGES); do
   wp_regenerate_thumbs
 done
+
+exit 0
