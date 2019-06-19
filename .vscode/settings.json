@@ -7,6 +7,8 @@
     "node_modules/": true,
     "vendor/": true,
     "wp-content/uploads": true,
+    "wp-content/themes/index.php": true,
+    "wp-content/themes/twenty*": true,
   },
   "search.exclude": {
     "*.sql": true,
