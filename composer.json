@@ -7,6 +7,10 @@
       "url":"https://wpackagist.org"
     }
   ],
+  "require":{
+    "php": ">=7.3",
+    "composer/installers": "v1.0.12"
+  },
   "require-dev": {
     "squizlabs/php_codesniffer": "^3.3",
     "wp-coding-standards/wpcs": "dev-master",
