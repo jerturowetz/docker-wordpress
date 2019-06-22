@@ -9,11 +9,7 @@
   ],
   "require": {
     "composer/installers": "^1.5",
-    "wpackagist-plugin/classic-editor":"*",
     "wpackagist-plugin/enable-media-replace":"*",
-    "wpackagist-plugin/idle-user-logout":"*",
-    "wpackagist-plugin/redirection":"*",
-    "wpackagist-plugin/regenerate-thumbnails":"*",
     "wpackagist-plugin/wordpress-seo":"*"
   },
   "require-dev": {
